@@ -1,8 +1,8 @@
 type User = {
   id: string;
   username: string;
-  recipes: Recipe[];
-  favorites: Recipe[];
+  recipes?: Recipe[];
+  favorites?: Recipe[];
 };
 
 type Recipe = {
