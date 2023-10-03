@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  recipes   Recipe[] @relation("OwnedRecipes")
+  favorites Recipe[] @relation("FavoritedRecipes")
+}
+
+model Recipe {
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  prepTime         Int?
+  cookTime         Int?
+  ingredientGroups IngredientGroup[]
+  procedureGroups  ProcedureGroup[]
+  Note             Note[]
+  author           User              @relation("OwnedRecipes", fields: [authorId], references: [id])
+  authorId         String            @db.ObjectId
+  favoritedBy      User              @relation("FavoritedRecipes", fields: [favoritedById], references: [id])
+  favoritedById    String            @db.ObjectId
+
+  @@unique([authorId, title])
+}
+
+model Note {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  Recipe      Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId    String? @db.ObjectId
+}
+
+model ProcedureGroup {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  groupTitle     String          @default("")
+  description    String?
+  procedureSteps ProcedureStep[]
+  Recipe         Recipe          @relation(fields: [recipeId], references: [id])
+  recipeId       String          @db.ObjectId
+
+  @@unique([groupTitle, recipeId])
+}
+
+model ProcedureStep {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  description      String
+  timer            Int
+  ProcedureGroup   ProcedureGroup @relation(fields: [procedureGroupId], references: [id])
+  procedureGroupId String         @db.ObjectId
+}
+
+model IngredientGroup {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  groupTitle  String       @default("")
+  description String?
+  ingredients Ingredient[]
+  Recipe      Recipe       @relation(fields: [recipeId], references: [id])
+  recipeId    String       @db.ObjectId
+
+  @@unique([groupTitle, recipeId])
+}
+
+model Ingredient {
+  id                String          @id @default(auto()) @map("_id") @db.ObjectId
+  qty               Int?
+  description       String
+  uom               Unit?
+  IngredientGroup   IngredientGroup @relation(fields: [ingredientGroupId], references: [id])
+  ingredientGroupId String          @db.ObjectId
+}
+
+enum Unit {
+  OZ
+  FLOZ
+  LB
+  G
+  C
+  TSP
+  TBSP
+  BUNCH
+  CAN
+  BAG
+  CONTAINER
+  OTHER
+}
