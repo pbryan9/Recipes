@@ -34,12 +34,19 @@ type Ingredient = {
   notes?: Note[];
 };
 
-type Unit = {
-  // belongs to ingredient
-  symbol: string;
-  description: string;
-  type: UnitType;
-};
+type Unit =
+  | 'OZ'
+  | 'FLOZ'
+  | 'LB'
+  | 'G'
+  | 'C'
+  | 'TSP'
+  | 'TBSP'
+  | 'BUNCH'
+  | 'CAN'
+  | 'BAG'
+  | 'CONTAINER'
+  | 'OTHER';
 
 type UnitType = 'volume' | 'weight' | 'other';
 
