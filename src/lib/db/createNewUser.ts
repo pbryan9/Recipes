@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '.';
 import z from 'zod';
-
-const prisma = new PrismaClient();
 
 const zCreateUser = z.object({
   username: z.string().min(5).max(20),
