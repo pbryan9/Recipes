@@ -24,13 +24,28 @@ model Recipe {
   cookTime         Int?
   ingredientGroups IngredientGroup[]
   procedureGroups  ProcedureGroup[]
-  Note             Note[]
+  tags             Tag[]
+  notes            Note[]
   author           User              @relation("OwnedRecipes", fields: [authorId], references: [id])
   authorId         String
-  favoritedBy      User              @relation("FavoritedRecipes", fields: [favoritedById], references: [id])
-  favoritedById    String
+  favoritedBy      User?             @relation("FavoritedRecipes", fields: [favoritedById], references: [id])
+  favoritedById    String?
 
   @@unique([authorId, title])
+}
+
+model Tag {
+  id          String    @id @default(uuid())
+  description String    @unique
+  recipes     Recipe[]
+  tagGroup    TagGroup?
+}
+
+enum TagGroup {
+  DIETARY
+  MEALTIME
+  ROLE
+  CUISINE
 }
 
 model Note {
@@ -54,7 +69,7 @@ model ProcedureGroup {
 model ProcedureStep {
   id               String         @id @default(uuid())
   description      String
-  timer            Int
+  timer            Int?
   ProcedureGroup   ProcedureGroup @relation(fields: [procedureGroupId], references: [id])
   procedureGroupId String
 }
