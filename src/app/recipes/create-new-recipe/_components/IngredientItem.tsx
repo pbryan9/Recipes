@@ -1,14 +1,13 @@
 import type { UseFieldArrayRemove } from 'react-hook-form';
+import Button from './Button';
 
 type IngredientItemProps = {
-  groupIndex: number;
   ingredientIndex: number;
-  remove: UseFieldArrayRemove;
+  removeMember: UseFieldArrayRemove;
 };
 
 export default function IngredientItem({
-  remove,
-  groupIndex,
+  removeMember,
   ingredientIndex,
 }: IngredientItemProps) {
   return (
@@ -31,11 +30,9 @@ export default function IngredientItem({
         className='col-span-5 rounded-r-md text-gray-900 px-4 h-full'
       />
       <div className='ingredient-buttons col-span-1 flex justify-center gap-4 items-center'>
-        <button
-          type='button'
-          onClick={() => remove(ingredientIndex)}
-          className='w-8 aspect-square bg-white'
-        ></button>
+        <Button border='none' onClick={() => removeMember(ingredientIndex)}>
+          <div className='w-6 aspect-square bg-white'></div>
+        </Button>
       </div>
     </div>
   );

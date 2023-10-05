@@ -28,7 +28,7 @@ export default function IngredientGroup({
   const ingredientList = fields.map((field, ingredientIndex) => (
     <IngredientItem
       key={field.id}
-      {...{ groupIndex, ingredientIndex, remove }}
+      {...{ groupIndex, ingredientIndex, removeMember: remove }}
     />
   ));
 

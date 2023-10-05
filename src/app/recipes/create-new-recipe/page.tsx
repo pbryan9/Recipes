@@ -5,6 +5,9 @@ import z from 'zod';
 
 import StandardMainContainer from '@/app/components/StandardMainContainer';
 import IngredientGroupsListing from './_components/IngredientGroupsListing';
+import GroupsListing from './_components/GroupsListing';
+import ButtonContainer from './_components/ButtonContainer';
+import Button from './_components/Button';
 
 const uomValues = [
   'OZ',
@@ -58,6 +61,8 @@ const formInputs = z.object({
     .optional(),
 });
 
+export type FormInputs = z.infer<typeof formInputs>;
+
 const defaultValues: FormInputs = {
   title: '',
   cookTime: undefined,
@@ -89,8 +94,6 @@ const defaultValues: FormInputs = {
   ],
 };
 
-export type FormInputs = z.infer<typeof formInputs>;
-
 export default function CreateNewRecipeView() {
   const inputClasses = 'col-span-6 rounded-md h-full text-gray-900 px-4';
   const labelClasses = 'col-span-2';
@@ -99,11 +102,15 @@ export default function CreateNewRecipeView() {
     defaultValues,
   });
 
+  function onSubmit(data: FormInputs) {
+    console.log('submit button clicked');
+  }
+
   return (
     <StandardMainContainer>
       <form className='flex flex-col items-start text-2xl font-bold gap-y-4 w-full h-fit min-h-full'>
         <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
-          <label htmlFor='title' className={labelClasses + ' text-3xl'}>
+          <label htmlFor='title' className={labelClasses + ' text-4xl'}>
             Recipe Title
           </label>
           <input
@@ -131,105 +138,32 @@ export default function CreateNewRecipeView() {
             className={inputClasses}
           />
         </section>
+
         <section
           id='ingredients-section'
           className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'
         >
-          <h2 className='col-span-full text-3xl'>Ingredients</h2>
-          <IngredientGroupsListing {...{ control, register }} />
-          {/* <div className='ingredient-group grid grid-cols-8 col-span-full h-full'>
-            <input
-              type='number'
-              className='col-span-1 rounded-l-md border-r border-gray-400 text-gray-900 text-center h-full'
-            />
-            <select className='col-span-1 border-r border-gray-400 text-gray-900 text-center h-full'>
-              <option></option>
-              <option>oz</option>
-              <option>fl. oz</option>
-              <option>g</option>
-              <option>lb</option>
-              <option>ml</option>
-              <option>cup</option>
-            </select>
-            <input
-              type='text'
-              className='col-span-5 rounded-r-md text-gray-900 px-4 h-full'
-            />
-            <div className='ingredient-buttons col-span-1 flex justify-center gap-4 items-center'>
-              <div className='w-8 aspect-square bg-white'></div>
-            </div>
-          </div>
-          <div className='ingredient-group grid grid-cols-8 col-span-full h-full'>
-            <input
-              type='number'
-              className='col-span-1 rounded-l-md border-r border-gray-400 text-gray-900 text-center h-full'
-            />
-            <select className='col-span-1 border-r border-gray-400 text-gray-900 text-center h-full'>
-              <option></option>
-              <option>oz</option>
-              <option>fl. oz</option>
-              <option>g</option>
-              <option>lb</option>
-              <option>ml</option>
-              <option>cup</option>
-            </select>
-            <input
-              type='text'
-              className='col-span-5 rounded-r-md text-gray-900 px-4 h-full'
-            /> */}
-          {/* <div className='ingredient-buttons col-span-1 flex justify-center gap-4 items-center'>
-            <div className='w-8 aspect-square bg-white'></div>
-          </div> */}
-          {/* </div> */}
-          {/* <button
-            type='button'
-            className='col-span-2 border border-gray-400 text-center rounded-md text-base h-full'
-          >
-            Add Ingredients
-          </button> */}
+          <h2 className='col-span-full text-4xl'>Ingredients</h2>
+          <GroupsListing
+            {...{ control, register, groupType: 'ingredientGroups' }}
+          />
         </section>
+
         <section
           id='procedure-section'
           className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'
         >
-          <h2 className='col-span-8 text-3xl'>Procedure</h2>
-          <div className='procedure-group grid grid-cols-8 col-span-full h-full'>
-            <input
-              type='text'
-              className='col-span-7 rounded-md text-gray-900 px-4'
-            />
-            <div className='procedure-buttons flex items-center justify-center gap-4 col-span-1'>
-              <div className='w-8 aspect-square bg-white'></div>
-              <div className='w-8 aspect-square bg-gray-500'></div>
-            </div>
-          </div>
-          {/* <div className='procedure-group grid grid-cols-8 col-span-full'>
-            <input type='text' className='col-span-7 rounded-md' />
-            <div className='procedure-buttons flex items-center justify-center gap-4 col-span-1'>
-              <div className='w-8 aspect-square bg-white'></div>
-              <div className='w-8 aspect-square bg-gray-500'></div>
-            </div>
-          </div>
-          <div className='procedure-group grid grid-cols-8 col-span-full'>
-            <input type='text' className='col-span-7 rounded-md' />
-            <div className='procedure-buttons flex items-center justify-center gap-4 col-span-1'>
-              <div className='w-8 aspect-square bg-white'></div>
-              <div className='w-8 aspect-square bg-gray-500'></div>
-            </div>
-          </div>
-          <div className='procedure-group grid grid-cols-8 col-span-full'>
-            <input type='text' className='col-span-7 rounded-md' />
-            <div className='procedure-buttons flex items-center justify-center gap-4 col-span-1'>
-              <div className='w-8 aspect-square bg-white'></div>
-              <div className='w-8 aspect-square bg-gray-500'></div>
-            </div>
-          </div> */}
-          <button
-            type='button'
-            className='col-span-2 border border-gray-400 text-center rounded-md text-base h-full'
-          >
-            Add Steps
-          </button>
+          <h2 className='col-span-full text-4xl'>Procedure</h2>
+          <GroupsListing
+            {...{ control, register, groupType: 'procedureGroups' }}
+          />
+        </section>
+
+        <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
+          <h2 className='col-span-full text-4xl'>Submit Recipe</h2>
+          <ButtonContainer>
+            <Button onClick={handleSubmit(onSubmit)}>Submit Recipe</Button>
+          </ButtonContainer>
         </section>
       </form>
     </StandardMainContainer>
