@@ -3,6 +3,7 @@ import { useFieldArray, type UseFieldArrayRemove } from 'react-hook-form';
 import type { Control, UseFormRegister } from 'react-hook-form';
 import type { FormInputs } from '../page';
 import IngredientItem from './IngredientItem';
+import Button from './Button';
 
 type IngredientGroupProps = {
   control: Control<FormInputs, any>;
@@ -41,20 +42,12 @@ export default function IngredientGroup({
       {groupTitle !== '' && <h3>{groupTitle}</h3>}
       {ingredientList}
       <section className='col-span-8 grid grid-cols-8 w-full h-full gap-4'>
-        <button
-          onClick={() => append({ description: '' })}
-          type='button'
-          className='col-span-2 border border-gray-400 text-center rounded-md text-base h-full'
-        >
+        <Button onClick={() => append({ description: '' })}>
           Add Ingredients
-        </button>
-        <button
-          onClick={() => removeGroup(groupIndex)}
-          type='button'
-          className='col-span-2 border border-gray-400 text-center rounded-md text-base h-full'
-        >
+        </Button>
+        <Button onClick={() => removeGroup(groupIndex)}>
           Remove This Group
-        </button>
+        </Button>
       </section>
     </>
   );
