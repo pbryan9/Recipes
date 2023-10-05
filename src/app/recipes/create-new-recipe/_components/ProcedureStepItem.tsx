@@ -1,23 +1,31 @@
-import type { UseFieldArrayRemove } from 'react-hook-form';
+import type { UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
 import Button from './Button';
+import type { FormInputs } from '../page';
 
 type ProcedureStepItemProps = {
   procedureIndex: number;
+  groupIndex: number;
+  register: UseFormRegister<FormInputs>;
   removeMember: UseFieldArrayRemove;
 };
 
 export default function ProcedureStepItem({
-  removeMember,
   procedureIndex,
+  groupIndex,
+  register,
+  removeMember,
 }: ProcedureStepItemProps) {
-  function createTimer() {
-    // TODO:
-    console.log('still have to finish this part');
-  }
+  const registrationPath = `procedureGroups.${groupIndex}.ingredients.${procedureIndex}`;
 
   return (
     <div className='procedure-step grid grid-cols-8 col-span-full h-full'>
-      <input type='text' className='col-span-7 rounded-md text-gray-900 px-4' />
+      <input
+        {...register(
+          `${registrationPath}.description` as 'procedureGroups.0.procedureSteps.0.description'
+        )}
+        type='text'
+        className='col-span-7 rounded-md text-gray-900 px-4'
+      />
       <div className='ingredient-buttons col-span-1 flex justify-center gap-4 items-center'>
         <Button border='none' onClick={() => removeMember(procedureIndex)}>
           <div className='w-6 aspect-square bg-white'></div>
@@ -28,4 +36,9 @@ export default function ProcedureStepItem({
       </div>
     </div>
   );
+}
+
+function createTimer() {
+  // TODO:
+  console.log('still have to finish this part');
 }

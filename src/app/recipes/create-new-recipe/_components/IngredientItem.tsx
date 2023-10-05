@@ -1,22 +1,37 @@
-import type { UseFieldArrayRemove } from 'react-hook-form';
+import type { UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
 import Button from './Button';
+import { FormInputs } from '../page';
 
 type IngredientItemProps = {
   ingredientIndex: number;
+  groupIndex: number;
+  register: UseFormRegister<FormInputs>;
   removeMember: UseFieldArrayRemove;
 };
 
 export default function IngredientItem({
-  removeMember,
   ingredientIndex,
+  groupIndex,
+  register,
+  removeMember,
 }: IngredientItemProps) {
+  const registrationPath = `ingredientGroups.${groupIndex}.ingredients.${ingredientIndex}`;
+
   return (
     <div className='ingredient-group grid grid-cols-8 col-span-full h-full'>
       <input
+        {...register(
+          `${registrationPath}.qty` as 'ingredientGroups.0.ingredients.0.qty'
+        )}
         type='number'
         className='col-span-1 rounded-l-md border-r border-gray-400 text-gray-900 text-center h-full'
       />
-      <select className='col-span-1 border-r border-gray-400 text-gray-900 text-center h-full'>
+      <select
+        {...register(
+          `${registrationPath}.uom` as 'ingredientGroups.0.ingredients.0.uom'
+        )}
+        className='col-span-1 border-r border-gray-400 text-gray-900 text-center h-full'
+      >
         <option></option>
         <option>oz</option>
         <option>fl. oz</option>
@@ -26,6 +41,9 @@ export default function IngredientItem({
         <option>cup</option>
       </select>
       <input
+        {...register(
+          `${registrationPath}.description` as 'ingredientGroups.0.ingredients.0.description'
+        )}
         type='text'
         className='col-span-5 rounded-r-md text-gray-900 px-4 h-full'
       />

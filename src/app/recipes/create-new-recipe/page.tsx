@@ -35,8 +35,8 @@ const formInputs = z.object({
       ingredients: z
         .object({
           qty: z.number().positive().optional(),
-          description: z.string(),
           uom: z.enum(uomValues).optional(),
+          description: z.string(),
         })
         .array(),
     })
@@ -104,6 +104,7 @@ export default function CreateNewRecipeView() {
 
   function onSubmit(data: FormInputs) {
     console.log('submit button clicked');
+    console.log('data:', data);
   }
 
   return (

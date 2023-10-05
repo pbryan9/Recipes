@@ -41,6 +41,8 @@ export default function GroupContainer({
           key={field.id}
           {...{
             ingredientIndex: index,
+            groupIndex,
+            register,
             removeMember,
           }}
         />
@@ -50,7 +52,7 @@ export default function GroupContainer({
       return (
         <ProcedureStepItem
           key={field.id}
-          {...{ procedureIndex: index, removeMember }}
+          {...{ procedureIndex: index, groupIndex, register, removeMember }}
         />
       );
   });
