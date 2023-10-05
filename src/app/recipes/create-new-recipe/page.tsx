@@ -1,66 +1,19 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+// import z from 'zod';
+
+import {
+  newRecipeFormInputSchema,
+  type FormInputs,
+} from '@/lib/validators/newRecipeFormInput';
 
 import StandardMainContainer from '@/app/components/StandardMainContainer';
 import GroupsListing from './_components/GroupsListing';
 import ButtonContainer from './_components/ButtonContainer';
 import Button from './_components/Button';
-
-const uomValues = [
-  'OZ',
-  'FLOZ',
-  'LB',
-  'G',
-  'C',
-  'TSP',
-  'TBSP',
-  'BUNCH',
-  'CAN',
-  'BAG',
-  'CONTAINER',
-  'OTHER',
-] as const;
-
-const formInputs = z.object({
-  title: z.string(),
-  prepTime: z.string().optional(),
-  cookTime: z.string().optional(),
-  ingredientGroups: z
-    .object({
-      groupTitle: z.string(),
-      description: z.string().optional(),
-      ingredients: z
-        .object({
-          qty: z.number().positive().optional(),
-          uom: z.enum(uomValues).optional(),
-          description: z.string(),
-        })
-        .array(),
-    })
-    .array(),
-  procedureGroups: z
-    .object({
-      groupTitle: z.string(),
-      description: z.string().optional(),
-      procedureSteps: z
-        .object({
-          description: z.string(),
-          timer: z.number().positive().int().optional(),
-        })
-        .array(),
-    })
-    .array(),
-  tags: z
-    .object({
-      description: z.string(),
-    })
-    .array()
-    .optional(),
-});
-
-export type FormInputs = z.infer<typeof formInputs>;
 
 const defaultValues: FormInputs = {
   title: '',
@@ -97,14 +50,24 @@ export default function CreateNewRecipeView() {
   const inputClasses = 'col-span-6 rounded-md h-full text-gray-900 px-4';
   const labelClasses = 'col-span-2';
 
-  const { register, handleSubmit, control } = useForm<FormInputs>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormInputs>({
     defaultValues,
+    resolver: zodResolver(newRecipeFormInputSchema),
   });
 
   function onSubmit(data: FormInputs) {
     console.log('submit button clicked');
     console.log('data:', data);
   }
+
+  useEffect(() => {
+    console.log(errors);
+  }, [Object.keys(errors)]);
 
   return (
     <StandardMainContainer>

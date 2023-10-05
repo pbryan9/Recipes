@@ -4,7 +4,7 @@ import {
   type UseFormRegister,
 } from 'react-hook-form';
 
-import type { FormInputs } from '../page';
+import type { FormInputs } from '@/lib/validators/newRecipeFormInput';
 
 import GroupContainer from './GroupContainer';
 import React from 'react';

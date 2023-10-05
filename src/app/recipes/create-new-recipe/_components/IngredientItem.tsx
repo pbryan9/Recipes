@@ -1,6 +1,6 @@
 import type { UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
 import Button from './Button';
-import { FormInputs } from '../page';
+import type { FormInputs } from '@/lib/validators/newRecipeFormInput';
 
 type IngredientItemProps = {
   ingredientIndex: number;
