@@ -1,6 +1,6 @@
-import LeftNav from './components/LeftNav';
+// import LeftNav from './components/LeftNav';
 import Navbar from './components/Navbar';
-import SectionHeader from './components/SectionHeader';
+// import SectionHeader from './components/SectionHeader';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -16,13 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className='min-h-screen min-w-screen bg-gray-900 text-gray-100 overflow-hidden border border-gray-400'>
+      <body className='h-screen min-w-screen bg-gray-900 text-gray-100 border border-gray-400 overflow-y-hidden'>
         <Navbar />
-        <SectionHeader />
-        <div className='main-section-wrapper flex justify-between items-start h-[calc(100vh_-_80px_-_128px)]'>
-          <LeftNav />
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
