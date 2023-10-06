@@ -1,3 +1,5 @@
+import { string } from 'zod';
+
 type User = {
   id: string;
   username: string;
@@ -8,28 +10,29 @@ type User = {
 type Recipe = {
   id: string;
   title: string;
+  prepTime?: string | number | null;
+  cookTime?: string | number | null;
+  authorId: string;
+  favoritedById?: string[] | string | null;
   author: User;
-  prepTime?: number;
-  cookTime?: number;
   ingredientGroups: IngredientGroup[];
   procedureGroups: ProcedureGroup[];
-  notes: Note[];
-  tags: Tag[];
-  references: Reference[];
   notes?: Note[];
+  tags?: Tag[];
 };
 
 type IngredientGroup = {
   // belongs to recipe
   groupTitle: string;
+  description?: string | null;
   ingredients: Ingredient[];
   notes?: Note[];
 };
 
 type Ingredient = {
   // belongs to ingredient group
-  qty: number;
-  uom?: Unit;
+  qty?: number | null;
+  uom?: Unit | null | string;
   description: string;
   notes?: Note[];
 };
@@ -60,7 +63,7 @@ type ProcedureGroup = {
 type ProcedureStep = {
   // belongs to procedure group
   description: string;
-  timer?: number; // in seconds
+  timer?: number | null; // in seconds
   notes?: Note[];
 };
 
@@ -70,7 +73,6 @@ type Note = {
 
 type Tag = {
   // belongs to recipe
-  name: string;
   description?: string;
 };
 
