@@ -1,21 +1,21 @@
-import type { PropsWithChildren, MouseEventHandler } from 'react';
-
 type ButtonProps = {
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
   border?: 'none';
+  disabled?: boolean;
+  type?: 'button' | 'submit';
+  children: React.ReactNode;
 };
 
 export default function Button({
-  children,
-  border = undefined,
   onClick,
-  ...args
-}: PropsWithChildren<ButtonProps>) {
+  border = undefined,
+  disabled = false,
+  type = 'button',
+  children,
+}: ButtonProps) {
   return (
     <button
-      type='button'
-      onClick={onClick}
-      {...args}
+      {...{ type, disabled, onClick }}
       className={`col-span-2  text-center rounded-md text-base h-full ${
         border !== 'none' && 'border border-gray-400'
       }`}

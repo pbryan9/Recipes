@@ -1,13 +1,15 @@
-import LeftNavCard from './LeftNavCard';
+import React from 'react';
 
-export default function LeftNav() {
-  const categories = ['Favorites', 'By Mealtime', 'By Role', 'All Tags'];
+type LeftNavProps = {
+  children: React.ReactNode;
+};
+
+export default function LeftNav({ children }: LeftNavProps) {
+  // const categories = ['Favorites', 'By Mealtime', 'By Role', 'All Tags'];
 
   return (
     <nav className='h-full basis-4/12 bg-slate-400 overflow-y-auto flex flex-col justify-start gap-0 border-r border-gray-400'>
-      {categories.map((category) => (
-        <LeftNavCard>{category}</LeftNavCard>
-      ))}
+      {children}
     </nav>
   );
 }
