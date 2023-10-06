@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-// import z from 'zod';
+import { useRouter } from 'next/navigation';
 
 import {
   newRecipeFormInputSchema,
@@ -15,7 +15,6 @@ import GroupsListing from './_components/GroupsListing';
 import ButtonContainer from './_components/ButtonContainer';
 import Button from './_components/Button';
 import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
-import { redirect } from 'next/dist/server/api-utils';
 
 const defaultValues: FormInputs = {
   title: '',
@@ -49,6 +48,10 @@ const defaultValues: FormInputs = {
 };
 
 export default function CreateNewRecipeView() {
+  const router = useRouter();
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   const inputClasses = 'col-span-6 rounded-md h-full text-gray-900 px-4';
   const labelClasses = 'col-span-2';
 
@@ -56,6 +59,7 @@ export default function CreateNewRecipeView() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormInputs>({
     defaultValues,
@@ -63,15 +67,18 @@ export default function CreateNewRecipeView() {
   });
 
   async function onSubmit(data: FormInputs) {
-    console.log('submit button clicked');
-    console.log('data:', data);
+    setButtonDisabled(true);
 
-    await createNewRecipe(data);
+    createNewRecipe(data).then((res) => {
+      reset(defaultValues);
+      setButtonDisabled(false);
+      router.push(`/recipes/${res?.id}`);
+    });
   }
 
-  useEffect(() => {
-    console.log(errors);
-  }, [Object.keys(errors)]);
+  // useEffect(() => {
+  //   console.log(errors);
+  // }, [Object.keys(errors)]);
 
   return (
     <StandardMainContainer>
@@ -129,7 +136,9 @@ export default function CreateNewRecipeView() {
         <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
           <h2 className='col-span-full text-4xl'>Submit Recipe</h2>
           <ButtonContainer>
-            <Button onClick={handleSubmit(onSubmit)}>Submit Recipe</Button>
+            <Button onClick={handleSubmit(onSubmit)} disabled={buttonDisabled}>
+              Submit Recipe
+            </Button>
           </ButtonContainer>
         </section>
       </form>
