@@ -15,7 +15,7 @@ export default function ProcedureStepItem({
   register,
   removeMember,
 }: ProcedureStepItemProps) {
-  const registrationPath = `procedureGroups.${groupIndex}.ingredients.${procedureIndex}`;
+  const registrationPath = `procedureGroups.${groupIndex}.procedureSteps.${procedureIndex}`;
 
   return (
     <div className='procedure-step grid grid-cols-8 col-span-full h-full'>
@@ -30,9 +30,10 @@ export default function ProcedureStepItem({
         <Button border='none' onClick={() => removeMember(procedureIndex)}>
           <div className='w-6 aspect-square bg-white'></div>
         </Button>
-        <Button border='none' onClick={createTimer}>
+        {/* // TODO: implement timer feature */}
+        {/* <Button border='none' onClick={createTimer}>
           <div className='w-6 aspect-square bg-gray-400'></div>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

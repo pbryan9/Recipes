@@ -1,6 +1,7 @@
 import type { UseFieldArrayRemove, UseFormRegister } from 'react-hook-form';
 import Button from './Button';
 import type { FormInputs } from '@/lib/validators/newRecipeFormInput';
+import { uomValues } from '@/lib/validators/newRecipeFormInput';
 
 type IngredientItemProps = {
   ingredientIndex: number;
@@ -32,13 +33,20 @@ export default function IngredientItem({
         )}
         className='col-span-1 border-r border-gray-400 text-gray-900 text-center h-full'
       >
-        <option></option>
+        {[...uomValues]
+          .sort((a, b) => (a > b ? 1 : -1))
+          .map((uom) => (
+            <option key={uom} value={uom}>
+              {uom.toLowerCase()}
+            </option>
+          ))}
+        {/* <option value={undefined}></option>
         <option>oz</option>
         <option>fl. oz</option>
         <option>g</option>
         <option>lb</option>
         <option>ml</option>
-        <option>cup</option>
+        <option>cup</option> */}
       </select>
       <input
         {...register(

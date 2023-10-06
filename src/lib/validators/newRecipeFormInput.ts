@@ -1,5 +1,5 @@
 import z from 'zod';
-import { numberToString } from '../helpers/numberToString';
+// import { stringToNumber } from '../helpers/numberToString';
 
 const uomValues = [
   '',
@@ -17,50 +17,82 @@ const uomValues = [
   'OTHER',
 ] as const;
 
-const newRecipeFormInputSchema = z.object({
-  title: z.string().min(1, { message: 'Recipe must have a title.' }),
-  prepTime: z.string().optional(),
-  cookTime: z.string().optional(),
-  ingredientGroups: z
-    .object({
-      groupTitle: z.string(),
-      description: z.string().optional(),
-      ingredients: z
-        .object({
-          // qty: z.number().positive().optional(),
-          qty: z.string().transform(numberToString).optional(),
-          uom: z.enum(uomValues).optional(),
-          description: z
-            .string()
-            .min(1, { message: 'Description cannot be blank.' }),
-        })
-        .array()
-        .nonempty({ message: 'Group must contain at least 1 ingredient.' }),
-    })
-    .array()
-    .nonempty({ message: 'Must contain at least 1 set of ingredients.' }),
-  procedureGroups: z
-    .object({
-      groupTitle: z.string(),
-      description: z.string().optional(),
-      procedureSteps: z
-        .object({
-          description: z
-            .string()
-            .min(1, { message: 'Description cannot be blank.' }),
-          timer: z.number().positive().int().optional(),
-        })
-        .array(),
-    })
-    .array()
-    .nonempty({ message: 'Must contain at least one set of steps.' }),
-  tags: z
-    .object({
-      description: z.string(),
-    })
-    .array()
-    .optional(),
-});
+const ingredientGroupSchema = z
+  .object({
+    groupTitle: z.string(),
+    description: z.string().optional(),
+    ingredients: z
+      .object({
+        // qty: z.number().positive().optional(),
+        qty: z.coerce.number().nullable().optional(),
+        uom: z.enum(uomValues).optional(),
+        description: z
+          .string()
+          .min(1, { message: 'Description cannot be blank.' }),
+      })
+      .array()
+      .nonempty({ message: 'Group must contain at least 1 ingredient.' }),
+  })
+  .array()
+  .nonempty({ message: 'Must contain at least 1 set of ingredients.' });
+
+const procedureGroupSchema = z
+  .object({
+    groupTitle: z.string(),
+    description: z.string().optional(),
+    procedureSteps: z
+      .object({
+        description: z
+          .string()
+          .min(1, { message: 'Description cannot be blank.' }),
+        timer: z.number().positive().int().optional(),
+      })
+      .array(),
+  })
+  .array()
+  .nonempty({ message: 'Must contain at least one set of steps.' });
+
+const tagsSchema = z
+  .object({
+    description: z.string(),
+  })
+  .array()
+  .optional();
+
+const newRecipeFormInputSchema = z
+  .object({
+    title: z.string().min(1, { message: 'Recipe must have a title.' }),
+    prepTime: z.coerce.number().optional(),
+    cookTime: z.coerce.number().optional(),
+    ingredientGroups: ingredientGroupSchema,
+    procedureGroups: procedureGroupSchema,
+    tags: tagsSchema,
+  })
+  .refine(({ ingredientGroups }) => refineGroupTitle(ingredientGroups), {
+    message: 'Ingredient group labels must be unique.',
+    path: ['ingredientGroups.0.groupTitle'],
+  })
+  .refine(({ procedureGroups }) => refineGroupTitle(procedureGroups), {
+    message: 'Procedure group labels must be unique.',
+    path: ['procedureGroups.0.groupTitle'],
+  });
+
+function refineGroupTitle(group: IngredientGroup | ProcedureGroup) {
+  if (group.length === 1) return true;
+
+  let seenTitles = new Set();
+
+  for (let member of group) {
+    if (seenTitles.has(member.groupTitle)) {
+      return false;
+    } else seenTitles.add(member.groupTitle);
+  }
+
+  return true;
+}
 
 export { newRecipeFormInputSchema, uomValues };
 export type FormInputs = z.infer<typeof newRecipeFormInputSchema>;
+export type IngredientGroup = z.infer<typeof ingredientGroupSchema>;
+export type ProcedureGroup = z.infer<typeof procedureGroupSchema>;
+export type tagSchema = z.infer<typeof tagsSchema>;

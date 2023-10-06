@@ -35,6 +35,20 @@ export default function GroupListing({
 
   const groupList = fields.map(({ id, groupTitle }, groupIndex) => (
     <React.Fragment key={id}>
+      {fields.length > 1 && (
+        <>
+          <label htmlFor={`group-${groupIndex}-title`} className='col-span-2'>
+            Group Label
+          </label>
+          <input
+            {...register(getGroupTitleRegistrationString(groupIndex))}
+            type='text'
+            placeholder='e.g., the dry team'
+            className='col-span-5 h-full rounded-md px-4 text-gray-900'
+            id={`group-${groupIndex}-title`}
+          ></input>
+        </>
+      )}
       <GroupContainer
         {...{
           control,
@@ -50,6 +64,7 @@ export default function GroupListing({
   ));
 
   function appendNewGroup() {
+    console.log('groupType:', groupType);
     if (groupType === 'ingredientGroups') {
       append({ groupTitle: '', ingredients: [{ description: '' }] });
     } else if (groupType === 'procedureGroups') {
@@ -65,4 +80,10 @@ export default function GroupListing({
       </ButtonContainer>
     </>
   );
+
+  function getGroupTitleRegistrationString(groupIndex: number) {
+    return `${groupType}.${groupIndex}.groupTitle` as
+      | 'ingredientGroups.0.groupTitle'
+      | 'procedureGroups.0.procedureSteps';
+  }
 }

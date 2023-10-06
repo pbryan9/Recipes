@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useFieldArray, type UseFieldArrayRemove } from 'react-hook-form';
 import type { Control, UseFormRegister } from 'react-hook-form';
-import type { FormInputs } from '../page';
 import type { GroupType } from './GroupsListing';
 import IngredientItem from './IngredientItem';
 import Button from './Button';
 import ProcedureStepItem from './ProcedureStepItem';
 import ButtonContainer from './ButtonContainer';
+import { FormInputs } from '@/lib/validators/newRecipeFormInput';
 
 type GroupContainerProps = {
   control: Control<FormInputs, any>;
@@ -21,10 +21,14 @@ export default function GroupContainer({
   control,
   register,
   groupIndex,
-  groupTitle,
   removeGroup,
   groupType,
 }: GroupContainerProps) {
+  // set up field array
+  const fieldArrayName = getFieldArrayName();
+
+  console.log('fieldArrayName:', fieldArrayName);
+
   const {
     fields,
     remove: removeMember,
@@ -69,7 +73,6 @@ export default function GroupContainer({
 
   return (
     <>
-      {groupTitle !== '' && <h3>{groupTitle}</h3>}
       {groupMembers}
       <ButtonContainer>
         <Button onClick={() => append({ description: '' })}>

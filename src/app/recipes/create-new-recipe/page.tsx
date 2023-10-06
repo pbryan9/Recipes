@@ -14,6 +14,8 @@ import StandardMainContainer from '@/app/components/StandardMainContainer';
 import GroupsListing from './_components/GroupsListing';
 import ButtonContainer from './_components/ButtonContainer';
 import Button from './_components/Button';
+import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
+import { redirect } from 'next/dist/server/api-utils';
 
 const defaultValues: FormInputs = {
   title: '',
@@ -60,9 +62,11 @@ export default function CreateNewRecipeView() {
     resolver: zodResolver(newRecipeFormInputSchema),
   });
 
-  function onSubmit(data: FormInputs) {
+  async function onSubmit(data: FormInputs) {
     console.log('submit button clicked');
     console.log('data:', data);
+
+    await createNewRecipe(data);
   }
 
   useEffect(() => {
