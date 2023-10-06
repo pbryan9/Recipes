@@ -89,22 +89,23 @@ model Ingredient {
   id                String          @id @default(uuid())
   qty               Int?
   description       String
-  uom               Unit?
+  uom               String?
+  unitId            String?
   IngredientGroup   IngredientGroup @relation(fields: [ingredientGroupId], references: [id])
   ingredientGroupId String
 }
 
-enum Unit {
-  OZ
-  FLOZ
-  LB
-  G
-  C
-  TSP
-  TBSP
-  BUNCH
-  CAN
-  BAG
-  CONTAINER
-  OTHER
-}
+// enum Unit {
+//   OZ
+//   FLOZ
+//   LB
+//   G
+//   C
+//   TSP
+//   TBSP
+//   BUNCH
+//   CAN
+//   BAG
+//   CONTAINER
+//   OTHER
+// }

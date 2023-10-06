@@ -1,11 +1,33 @@
 import { PrismaClient } from '@prisma/client';
 import mockUserData from './mock/mockUsers.json' assert { type: 'json' };
 
+const uomValues = [
+  '',
+  'OZ',
+  'FLOZ',
+  'LB',
+  'G',
+  'C',
+  'TSP',
+  'TBSP',
+  'BUNCH',
+  'CAN',
+  'BAG',
+  'CONTAINER',
+  'OTHER',
+];
+
 const prisma = new PrismaClient();
 
 export async function seed() {
   await Promise.all([seedUsers(), seedTags()]);
   await seedRecipes();
+}
+
+async function seedUnits() {
+  await prisma.unit.createMany({
+    data: uomValues.map((uom) => ({ symbol: uom })),
+  });
 }
 
 export async function seedTags() {
@@ -73,7 +95,6 @@ export async function seedRecipes() {
                   data: [
                     {
                       qty: 3,
-                      uom: 'CONTAINER',
                       description: 'bullshit',
                     },
                     {
