@@ -40,13 +40,6 @@ export default function IngredientItem({
               {uom.toLowerCase()}
             </option>
           ))}
-        {/* <option value={undefined}></option>
-        <option>oz</option>
-        <option>fl. oz</option>
-        <option>g</option>
-        <option>lb</option>
-        <option>ml</option>
-        <option>cup</option> */}
       </select>
       <input
         {...register(

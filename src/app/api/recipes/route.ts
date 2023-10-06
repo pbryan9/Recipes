@@ -1,4 +1,4 @@
-import { getAllRecipes } from '@/lib/db/recipes/getRecipes';
+import { getAllRecipes } from '@/lib/db/recipes/getAllRecipes';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

@@ -5,6 +5,7 @@ export default function Home() {
     <main className='p-6 basis-8/12 flex flex-col gap-5 overflow-y-auto h-full'>
       <h1>Home</h1>
       <Link href='/recipes'>Recipes</Link>
+      <Link href='/recipes/create-new-recipe'>New Recipe Form</Link>
     </main>
   );
 }

@@ -6,7 +6,6 @@ import {
   type FormInputs,
   newRecipeFormInputSchema,
 } from '@/lib/validators/newRecipeFormInput';
-import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
 
 export async function createNewRecipe(formInputs: FormInputs) {
@@ -150,10 +149,7 @@ export async function createNewRecipe(formInputs: FormInputs) {
 
     revalidatePath('/recipes');
 
-    console.dir(finalRecipe, { depth: 5 });
-
-    // redirect(`/recipes/${newRecipe.id}`);
-    redirect('http://localhost:3000/');
+    return finalRecipe;
   } catch (err) {
     console.log('error creating new recipe');
     console.log(err);
