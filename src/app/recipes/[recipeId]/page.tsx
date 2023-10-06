@@ -18,12 +18,13 @@ export default async function SingleRecipeView({
   return (
     <>
       <LeftNav>
+        <h2 className='text-4xl'>Ingredients</h2>
         {recipe?.ingredientGroups.map((group) => (
           <article className='w-full h-fit flex flex-col gap-0 mb-4'>
             {group.groupTitle !== '' && (
-              <h2 className='text-3xl self-start font-bold text-gray-800 px-4'>
+              <h3 className='text-3xl self-start font-bold text-gray-800 px-4'>
                 {group.groupTitle}
-              </h2>
+              </h3>
             )}
             {group.ingredients.map((item) => (
               <LeftNavCard>{item.description}</LeftNavCard>
