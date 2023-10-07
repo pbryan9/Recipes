@@ -16,12 +16,15 @@ import GroupsListing from './_components/GroupsListing';
 import ButtonContainer from './_components/ButtonContainer';
 import Button from './_components/Button';
 import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
+import LeftNav from '@/app/components/LeftNav';
+import LeftNavCard from '@/app/components/LeftNavCard';
+import LeftNavCardContainer from '@/app/components/LeftNavCardContainer';
 
 const defaultValues: FormInputs = {
   title: '',
   author: undefined,
-  cookTime: undefined,
-  prepTime: undefined,
+  cookTime: '' as unknown as undefined,
+  prepTime: '' as unknown as undefined,
   ingredientGroups: [
     {
       groupTitle: '',
@@ -86,67 +89,79 @@ export default function CreateNewRecipeView() {
   }, [Object.keys(errors)]);
 
   return (
-    <StandardMainContainer>
-      <form className='flex flex-col items-start text-2xl font-bold gap-y-4 w-full h-fit min-h-full'>
-        <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
-          <label htmlFor='title' className={labelClasses + ' text-4xl'}>
-            Recipe Title
-          </label>
-          <input
-            type='text'
-            id='title'
-            {...register('title')}
-            className={inputClasses}
-          />
-          <label htmlFor='prepTime' className={labelClasses}>
-            Prep Time
-          </label>
-          <input
-            type='text'
-            id='prepTime'
-            {...register('prepTime')}
-            className={inputClasses}
-          />
-          <label htmlFor='cookTime' className={labelClasses}>
-            Cook Time
-          </label>
-          <input
-            type='text'
-            id='cookTime'
-            {...register('cookTime')}
-            className={inputClasses}
-          />
-        </section>
+    <>
+      <LeftNav>
+        <LeftNavCardContainer title='Add Tags' />
+        <LeftNavCard onClick={handleSubmit(onSubmit)}>Save Recipe</LeftNavCard>
+        <LeftNavCard onClick={() => reset(defaultValues)}>
+          Clear Form
+        </LeftNavCard>
+      </LeftNav>
+      <StandardMainContainer>
+        <form className='flex flex-col items-start text-2xl font-bold gap-y-4 w-full h-fit min-h-full'>
+          <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
+            <label htmlFor='title' className={labelClasses + ' text-4xl'}>
+              Recipe Title
+            </label>
+            <input
+              type='text'
+              id='title'
+              {...register('title')}
+              className={inputClasses}
+            />
+            <label htmlFor='prepTime' className={labelClasses}>
+              Prep Time
+            </label>
+            <input
+              type='text'
+              id='prepTime'
+              {...register('prepTime')}
+              className={inputClasses}
+            />
+            <label htmlFor='cookTime' className={labelClasses}>
+              Cook Time
+            </label>
+            <input
+              type='text'
+              id='cookTime'
+              {...register('cookTime')}
+              className={inputClasses}
+            />
+          </section>
 
-        <section
-          id='ingredients-section'
-          className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'
-        >
-          <h2 className='col-span-full text-4xl'>Ingredients</h2>
-          <GroupsListing
-            {...{ control, register, groupType: 'ingredientGroups' }}
-          />
-        </section>
+          <section
+            id='ingredients-section'
+            className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center border border-gray-400 rounded-md p-4'
+          >
+            <h2 className='col-span-full text-4xl'>Ingredients</h2>
+            <GroupsListing
+              {...{ control, register, groupType: 'ingredientGroups' }}
+            />
+          </section>
 
-        <section
-          id='procedure-section'
-          className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'
-        >
-          <h2 className='col-span-full text-4xl'>Procedure</h2>
-          <GroupsListing
-            {...{ control, register, groupType: 'procedureGroups' }}
-          />
-        </section>
+          <section
+            id='procedure-section'
+            className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center border border-gray-400 rounded-md p-4'
+          >
+            <h2 className='col-span-full text-4xl'>Procedure</h2>
+            <GroupsListing
+              {...{ control, register, groupType: 'procedureGroups' }}
+            />
+          </section>
 
-        <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
-          <h2 className='col-span-full text-4xl'>Submit Recipe</h2>
-          <ButtonContainer>
-            <Button onClick={handleSubmit(onSubmit)} disabled={buttonDisabled}>
-              Submit Recipe
-            </Button>
-          </ButtonContainer>
-        </section>
-      </form>
-    </StandardMainContainer>
+          <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>
+            <h2 className='col-span-full text-4xl'>Submit Recipe</h2>
+            <ButtonContainer>
+              <Button
+                onClick={handleSubmit(onSubmit)}
+                disabled={buttonDisabled}
+              >
+                Submit Recipe
+              </Button>
+            </ButtonContainer>
+          </section>
+        </form>
+      </StandardMainContainer>
+    </>
   );
 }

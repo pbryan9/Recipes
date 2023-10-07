@@ -1,12 +1,28 @@
 import React from 'react';
 
+const variantClasses = {
+  none: 'bg-gray-700 text-2xl px-6 font-bold',
+  'sub-item': 'bg-gray-300 text-xl pl-8 pr-6 text-gray-800',
+} as const;
+
 type LeftNavCardProps = {
   children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  variant?: keyof typeof variantClasses;
 };
 
-export default function LeftNavCard({ children }: LeftNavCardProps) {
+export default function LeftNavCard({
+  children,
+  onClick,
+  variant = 'none',
+}: LeftNavCardProps) {
   return (
-    <article className='category-card bg-gray-700 h-20 flex-shrink-0 w-full flex items-center px-6 text-2xl border-b border-gray-400'>
+    <article
+      onClick={onClick}
+      className={`category-card h-20 flex-shrink-0 w-full flex items-center border-b border-gray-400 ${
+        onClick ? 'cursor-pointer' : ''
+      } ${variantClasses[variant || 'none']}`}
+    >
       {children}
     </article>
   );
