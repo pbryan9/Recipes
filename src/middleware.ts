@@ -5,6 +5,8 @@ export default authMiddleware({
     '/',
     '/recipes',
     '/recipes/(.*)',
+    '/api/recipes',
+    '/api/tags'
   ],
 });
 

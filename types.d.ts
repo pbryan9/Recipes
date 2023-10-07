@@ -74,7 +74,7 @@ type Note = {
 type Tag = {
   // belongs to recipe
   description: string;
-  tagGroup?: string;
+  tagGroup?: string | null;
 };
 
 type Reference = {

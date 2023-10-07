@@ -35,19 +35,19 @@ model Recipe {
 }
 
 model Tag {
-  id          String    @id @default(uuid())
-  description String    @unique
+  id          String   @id @default(uuid())
+  description String   @unique
   recipes     Recipe[]
-  tagGroup    TagGroup?
+  tagGroup    String?
 }
 
-enum TagGroup {
-  DIETARY
-  MEALTIME
-  ROLE
-  CUISINE
-  PROTEIN
-}
+// enum TagGroup {
+//   DIETARY
+//   MEALTIME
+//   ROLE
+//   CUISINE
+//   PROTEIN
+// }
 
 model Note {
   id          String  @id @default(uuid())

@@ -20,31 +20,31 @@ const uomValues = [
 const tags = [
   {
     description: 'vegan',
-    tagGroup: 'DIETARY',
+    tagGroup: 'dietary',
   },
   {
     description: 'sides',
-    tagGroup: 'ROLE',
+    tagGroup: 'role',
   },
   {
     description: 'korean',
-    tagGroup: 'CUISINE',
+    tagGroup: 'cuisine',
   },
   {
     description: 'breakfast',
-    tagGroup: 'MEALTIME',
+    tagGroup: 'mealtime',
   },
   {
     description: 'mexican',
-    tagGroup: 'CUISINE',
+    tagGroup: 'cuisine',
   },
   {
     description: 'dessert',
-    tagGroup: 'ROLE',
+    tagGroup: 'role',
   },
   {
     description: 'mains',
-    tagGroup: 'ROLE',
+    tagGroup: 'role',
   },
   // {
   //   description: '',
