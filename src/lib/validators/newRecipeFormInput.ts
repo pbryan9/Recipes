@@ -55,6 +55,8 @@ const procedureGroupSchema = z
 const tagsSchema = z
   .object({
     description: z.string(),
+    tagGroup: z.string().optional(),
+    id: z.string().optional(),
   })
   .array()
   .optional();

@@ -1,26 +1,27 @@
 import LeftNav from '@/app/components/LeftNav';
 import LeftNavCard from '@/app/components/LeftNavCard';
-import LeftNavCardContainer from '@/app/components/LeftNavCardContainer';
-import { FormInputs } from '@/lib/validators/newRecipeFormInput';
 import React, { type BaseSyntheticEvent } from 'react';
 import CreateTagsContainer from './Create_TagsContainer';
+import { Tag } from '.prisma/client';
 
 type CreateSideMenuProps = {
+  toggleTag: (tag: Tag) => void;
+  selectedTags?: Map<string, Tag>;
   submitForm: (
     e?: BaseSyntheticEvent<object, any, any> | undefined
   ) => Promise<void>;
   resetForm: () => void;
-  children: React.ReactNode;
 };
 
 export default function CreateSideMenu({
+  toggleTag,
+  selectedTags,
   submitForm,
   resetForm,
-  children,
 }: CreateSideMenuProps) {
   return (
     <LeftNav>
-      {children}
+      <CreateTagsContainer {...{ toggleTag, selectedTags }} />
       <LeftNavCard onClick={submitForm}>Save Recipe</LeftNavCard>
       <LeftNavCard onClick={resetForm}>Clear Form</LeftNavCard>
     </LeftNav>

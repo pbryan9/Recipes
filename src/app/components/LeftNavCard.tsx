@@ -10,12 +10,14 @@ type LeftNavCardProps = {
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   variant?: keyof typeof variantClasses;
+  selected?: boolean;
 };
 
 export default function LeftNavCard({
   children,
   onClick,
   variant = 'none',
+  selected = undefined,
 }: LeftNavCardProps) {
   return (
     <article
@@ -23,8 +25,15 @@ export default function LeftNavCard({
       className={`category-card h-20 flex-shrink-0 w-full capitalize flex items-center border-b border-gray-400 ${
         onClick ? 'cursor-pointer' : ''
       } ${variantClasses[variant || 'none']}`}
+      style={selected ? styles.selected : undefined}
     >
       {children}
     </article>
   );
 }
+
+const styles = {
+  selected: {
+    backgroundColor: 'rgb(134, 239, 172)',
+  },
+};

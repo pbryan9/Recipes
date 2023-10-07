@@ -7,9 +7,15 @@ import LeftNavCardContainer from '@/app/components/LeftNavCardContainer';
 
 import { Tag, type $Enums } from '@prisma/client';
 
-type CreateTagsContainerProps = {};
+type CreateTagsContainerProps = {
+  toggleTag: (tag: Tag) => void;
+  selectedTags?: Map<string, Tag>;
+};
 
-export default function CreateTagsContainer({}: CreateTagsContainerProps) {
+export default function CreateTagsContainer({
+  toggleTag,
+  selectedTags,
+}: CreateTagsContainerProps) {
   const [tags, setTags] = useState<[string, Tag[]][] | null>(null);
 
   useEffect(() => {
@@ -51,7 +57,12 @@ export default function CreateTagsContainer({}: CreateTagsContainerProps) {
               title={`${groupTitle.toLowerCase()} tags`}
             >
               {tags.map((tag) => (
-                <LeftNavCard key={tag.id} variant='sub-sub-item'>
+                <LeftNavCard
+                  onClick={() => toggleTag(tag)}
+                  key={tag.id}
+                  variant='sub-sub-item'
+                  selected={selectedTags?.has(tag.id)}
+                >
                   {tag.description.toLowerCase()}
                 </LeftNavCard>
               ))}

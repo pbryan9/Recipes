@@ -6,6 +6,7 @@ import {
   type FormInputs,
   newRecipeFormInputSchema,
 } from '@/lib/validators/newRecipeFormInput';
+import { Tag } from '@prisma/client';
 
 export async function createNewRecipe(formInputs: FormInputs) {
   const validatedFormInputs = newRecipeFormInputSchema.parse(formInputs);
@@ -13,6 +14,7 @@ export async function createNewRecipe(formInputs: FormInputs) {
   // clean up object
   if (!validatedFormInputs.cookTime) delete validatedFormInputs.cookTime;
   if (!validatedFormInputs.prepTime) delete validatedFormInputs.prepTime;
+  if (!validatedFormInputs.tags?.length) delete validatedFormInputs.tags;
 
   for (let group of validatedFormInputs.ingredientGroups) {
     if (!group.description) delete group.description;
@@ -50,6 +52,7 @@ export async function createNewRecipe(formInputs: FormInputs) {
             },
           },
         },
+        tags: {},
         ingredientGroups: {
           create: {
             groupTitle:
@@ -132,12 +135,26 @@ export async function createNewRecipe(formInputs: FormInputs) {
       });
     }
 
+    // create/connect tags to recipe
+    if (validatedFormInputs.tags)
+      await prisma.recipe.update({
+        where: {
+          id: newRecipe.id,
+        },
+        data: {
+          tags: {
+            connect: validatedFormInputs.tags!.map((tag) => ({ id: tag.id })),
+          },
+        },
+      });
+
     console.log('fetching final recipe');
 
     const finalRecipe = await prisma.recipe.findUnique({
       where: { id: newRecipe.id },
       include: {
         author: true,
+        tags: true,
         ingredientGroups: {
           include: {
             ingredients: true,

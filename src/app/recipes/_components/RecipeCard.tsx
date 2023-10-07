@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Recipe } from '../../../../types';
-import TagBadge from './TagBadge';
+import TagBadge from '../../components/TagBadge';
 
 type RecipeCardProps = {
   recipe: Recipe;

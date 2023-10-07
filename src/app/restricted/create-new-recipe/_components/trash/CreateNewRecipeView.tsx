@@ -14,10 +14,10 @@ import {
 import StandardMainContainer from '@/app/components/StandardMainContainer';
 
 import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
-import CreateSideMenu from './Create_SideMenu';
-import GroupsListing from './GroupsListing';
-import ButtonContainer from './ButtonContainer';
-import Button from './Button';
+import CreateSideMenu from '../Create_SideMenu';
+import GroupsListing from '../GroupsListing';
+import ButtonContainer from '../ButtonContainer';
+import Button from '../Button';
 
 const defaultValues: FormInputs = {
   title: '',
@@ -51,13 +51,7 @@ const defaultValues: FormInputs = {
   ],
 };
 
-type CreateNewRecipeViewProps = {
-  children: React.ReactNode;
-};
-
-export default function CreateNewRecipeView({
-  children,
-}: CreateNewRecipeViewProps) {
+export default function CreateNewRecipeView() {
   const router = useRouter();
   const { user } = useUser();
 
@@ -98,7 +92,7 @@ export default function CreateNewRecipeView({
 
   return (
     <>
-      <CreateSideMenu {...{ resetForm, submitForm, children }} />
+      <CreateSideMenu {...{ resetForm, submitForm }} />
       <StandardMainContainer>
         <form className='flex flex-col items-start text-2xl font-bold gap-y-4 w-full h-fit min-h-full'>
           <section className='col-span-8 grid grid-cols-8 auto-rows-[56px] gap-y-4 self-start w-full items-center'>

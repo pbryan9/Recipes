@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
-import { useFieldArray, type UseFieldArrayRemove } from 'react-hook-form';
-import type { Control, UseFormRegister } from 'react-hook-form';
-import type { GroupType } from './GroupsListing';
+import { useFieldArray } from 'react-hook-form';
+
 import IngredientItem from './IngredientItem';
 import Button from './Button';
 import ProcedureStepItem from './ProcedureStepItem';
 import ButtonContainer from './ButtonContainer';
-import { FormInputs } from '@/lib/validators/newRecipeFormInput';
+
+import type {
+  Control,
+  UseFormRegister,
+  UseFieldArrayRemove,
+} from 'react-hook-form';
+import type { GroupType } from './GroupsListing';
+import type { FormInputs } from '@/lib/validators/newRecipeFormInput';
 
 type GroupContainerProps = {
   control: Control<FormInputs, any>;
@@ -78,6 +84,7 @@ export default function GroupContainer({
           Remove This Group
         </Button>
       </ButtonContainer>
+      <div className='col-span-full mx-auto w-3/4 border-b border-gray-400' />
     </>
   );
 
