@@ -1,8 +1,13 @@
 import type { ReactNode } from 'react';
 import SectionHeader from '@/app/components/SectionHeader';
+import { Metadata } from 'next';
 
 type CreateNewRecipeLayoutProps = {
   children: ReactNode;
+};
+
+export const metadata: Metadata = {
+  title: 'Add New Recipe',
 };
 
 export default function CreateNewRecipeLayout({

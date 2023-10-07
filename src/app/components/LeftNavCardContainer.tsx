@@ -1,13 +1,23 @@
+'use client';
+
 import Image from 'next/image';
 import React, { useState } from 'react';
-import LeftNavCard from './LeftNavCard';
+
+const variantClasses = {
+  none: 'bg-gray-700 text-2xl px-6 font-bold',
+  'sub-container': 'bg-gray-300 text-xl pl-8 pr-6 text-gray-800',
+} as const;
 
 type LeftNavCardContainerProps = {
   title: string;
+  children: React.ReactNode;
+  variant?: 'sub-container' | 'none';
 };
 
 export default function LeftNavCardContainer({
   title,
+  children,
+  variant = 'none',
 }: LeftNavCardContainerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -15,7 +25,7 @@ export default function LeftNavCardContainer({
     <>
       <article
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`category-card h-20 flex-shrink-0 w-full flex items-center justify-between border-b border-gray-400 cursor-pointer bg-gray-700 text-2xl px-6 font-bold`}
+        className={`category-card h-20 flex-shrink-0 w-full flex items-center justify-between border-b capitalize border-gray-400 cursor-pointer ${variantClasses[variant]}`}
       >
         {title}
         <Image
@@ -28,13 +38,7 @@ export default function LeftNavCardContainer({
           height={15}
         />
       </article>
-      {isOpen && (
-        <>
-          <LeftNavCard variant='sub-item'>Test Card</LeftNavCard>
-          <LeftNavCard variant='sub-item'>Test Card</LeftNavCard>
-          <LeftNavCard variant='sub-item'>Test Card</LeftNavCard>
-        </>
-      )}
+      {isOpen && children}
     </>
   );
 }

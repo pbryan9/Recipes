@@ -3,6 +3,7 @@ import React from 'react';
 const variantClasses = {
   none: 'bg-gray-700 text-2xl px-6 font-bold',
   'sub-item': 'bg-gray-300 text-xl pl-8 pr-6 text-gray-800',
+  'sub-sub-item': 'bg-gray-200 text-lg pl-10 pr-6 text-gray-700',
 } as const;
 
 type LeftNavCardProps = {
@@ -19,7 +20,7 @@ export default function LeftNavCard({
   return (
     <article
       onClick={onClick}
-      className={`category-card h-20 flex-shrink-0 w-full flex items-center border-b border-gray-400 ${
+      className={`category-card h-20 flex-shrink-0 w-full capitalize flex items-center border-b border-gray-400 ${
         onClick ? 'cursor-pointer' : ''
       } ${variantClasses[variant || 'none']}`}
     >
