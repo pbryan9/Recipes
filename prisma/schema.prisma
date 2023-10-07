@@ -46,6 +46,7 @@ enum TagGroup {
   MEALTIME
   ROLE
   CUISINE
+  PROTEIN
 }
 
 model Note {
