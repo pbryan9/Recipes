@@ -62,6 +62,7 @@ const tagsSchema = z
 const newRecipeFormInputSchema = z
   .object({
     title: z.string().min(1, { message: 'Recipe must have a title.' }),
+    author: z.string().min(1, { message: 'Username is missing.' }).optional(),
     prepTime: z.coerce.number().optional(),
     cookTime: z.coerce.number().optional(),
     ingredientGroups: ingredientGroupSchema,

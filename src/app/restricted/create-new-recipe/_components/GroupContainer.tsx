@@ -25,10 +25,6 @@ export default function GroupContainer({
   groupType,
 }: GroupContainerProps) {
   // set up field array
-  const fieldArrayName = getFieldArrayName();
-
-  console.log('fieldArrayName:', fieldArrayName);
-
   const {
     fields,
     remove: removeMember,

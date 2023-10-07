@@ -6,7 +6,6 @@ import {
   type FormInputs,
   newRecipeFormInputSchema,
 } from '@/lib/validators/newRecipeFormInput';
-import { NextResponse } from 'next/server';
 
 export async function createNewRecipe(formInputs: FormInputs) {
   const validatedFormInputs = newRecipeFormInputSchema.parse(formInputs);
@@ -41,9 +40,14 @@ export async function createNewRecipe(formInputs: FormInputs) {
         cookTime: validatedFormInputs.cookTime,
         prepTime: validatedFormInputs.prepTime,
         author: {
-          connect: {
+          connectOrCreate: {
             // TODO: derive user ID or username
-            username: 'steffy',
+            where: {
+              username: validatedFormInputs.author,
+            },
+            create: {
+              username: validatedFormInputs.author || 'anonymous',
+            },
           },
         },
         ingredientGroups: {

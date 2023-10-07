@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useUser } from '@clerk/nextjs';
 
 import {
   newRecipeFormInputSchema,
@@ -18,6 +19,7 @@ import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
 
 const defaultValues: FormInputs = {
   title: '',
+  author: undefined,
   cookTime: undefined,
   prepTime: undefined,
   ingredientGroups: [
@@ -49,6 +51,7 @@ const defaultValues: FormInputs = {
 
 export default function CreateNewRecipeView() {
   const router = useRouter();
+  const { user } = useUser();
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -69,6 +72,8 @@ export default function CreateNewRecipeView() {
   async function onSubmit(data: FormInputs) {
     setButtonDisabled(true);
 
+    data.author = user?.username || 'anonymous';
+
     createNewRecipe(data).then((res) => {
       reset(defaultValues);
       setButtonDisabled(false);
@@ -76,9 +81,9 @@ export default function CreateNewRecipeView() {
     });
   }
 
-  // useEffect(() => {
-  //   console.log(errors);
-  // }, [Object.keys(errors)]);
+  useEffect(() => {
+    console.log(errors);
+  }, [Object.keys(errors)]);
 
   return (
     <StandardMainContainer>

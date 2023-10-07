@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import SectionHeader from '../_components/SectionHeader';
 import CreateNewRecipesLeftNav from './_components/CreateNewRecipesLeftNav';
+import SectionHeader from '@/app/components/SectionHeader';
 
 type CreateNewRecipeLayoutProps = {
   children: ReactNode;

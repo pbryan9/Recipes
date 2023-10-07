@@ -1,3 +1,4 @@
+import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -9,9 +10,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className='text-3xl font-bold'>
-        <Link href='/login' className=''>
-          Log In
-        </Link>
+        <UserButton afterSignOutUrl='/' />
       </div>
     </nav>
   );
