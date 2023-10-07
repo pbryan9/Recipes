@@ -17,6 +17,41 @@ const uomValues = [
   'OTHER',
 ];
 
+const tags = [
+  {
+    description: 'vegan',
+    tagGroup: 'DIETARY',
+  },
+  {
+    description: 'sides',
+    tagGroup: 'ROLE',
+  },
+  {
+    description: 'korean',
+    tagGroup: 'CUISINE',
+  },
+  {
+    description: 'breakfast',
+    tagGroup: 'MEALTIME',
+  },
+  {
+    description: 'mexican',
+    tagGroup: 'CUISINE',
+  },
+  {
+    description: 'dessert',
+    tagGroup: 'ROLE',
+  },
+  {
+    description: 'mains',
+    tagGroup: 'ROLE',
+  },
+  // {
+  //   description: '',
+  //   tagGroup: '',
+  // },
+];
+
 const prisma = new PrismaClient();
 
 export async function seed() {
@@ -31,16 +66,6 @@ async function seedUnits() {
 }
 
 export async function seedTags() {
-  const tags = [
-    {
-      description: 'Vegan',
-      tagGroup: 'DIETARY',
-    },
-    {
-      description: 'Thanksgiving',
-    },
-  ];
-
   await prisma.tag.createMany({ data: tags });
 }
 
