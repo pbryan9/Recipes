@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import SectionHeader from '../_components/SectionHeader';
-import { Metadata } from 'next';
+// import { Metadata } from 'next';
 import { getRecipe } from '@/lib/db/recipes/getRecipe';
 import { getAllRecipes } from '@/lib/db/recipes/getAllRecipes';
+import SectionHeader from '@/app/components/SectionHeader';
 
 type CreateNewRecipeLayoutProps = {
   params: {
@@ -41,14 +41,14 @@ export async function generateStaticParams() {
   return recipes.map((recipe) => recipe.id);
 }
 
-export async function generateMetadata({
-  params,
-}: MetadataProps): Promise<Metadata> {
-  const { recipeId } = params;
+// export async function generateMetadata({
+//   params,
+// }: MetadataProps): Promise<Metadata> {
+//   const { recipeId } = params;
 
-  const recipe = await getRecipe(recipeId);
+//   const recipe = await getRecipe(recipeId);
 
-  return {
-    title: `Recipe: ${recipe?.title}` || 'Viewing Recipe',
-  };
-}
+//   return {
+//     title: `Recipe: ${recipe?.title}` || 'Viewing Recipe',
+//   };
+// }

@@ -1,12 +1,11 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import prisma from '..';
 import {
   type FormInputs,
   newRecipeFormInputSchema,
 } from '@/lib/validators/newRecipeFormInput';
-import { Tag } from '@prisma/client';
 
 export async function createNewRecipe(formInputs: FormInputs) {
   const validatedFormInputs = newRecipeFormInputSchema.parse(formInputs);
@@ -168,7 +167,13 @@ export async function createNewRecipe(formInputs: FormInputs) {
       },
     });
 
+    console.log('trying to revalidate paths');
+    revalidatePath('/');
+    revalidatePath('/app/recipes');
+    revalidateTag('all-recipes');
+    revalidatePath('/api/recipes', 'page');
     revalidatePath('/recipes');
+    console.log('after trying to revalidate paths');
 
     return finalRecipe;
   } catch (err) {

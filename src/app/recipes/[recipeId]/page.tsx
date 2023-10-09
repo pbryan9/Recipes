@@ -1,8 +1,10 @@
 import { getRecipe } from '@/lib/db/recipes/getRecipe';
-import LeftNav from '../_components/LeftNav';
+// import LeftNav from '../_components/LeftNav';
 import StandardMainContainer from '@/app/components/StandardMainContainer';
 import { getAllRecipes } from '@/lib/db/recipes/getAllRecipes';
-import LeftNavCard from '../_components/LeftNavCard';
+import LeftNavCard from '@/app/components/LeftNavCard';
+import LeftNav from '@/app/components/LeftNav';
+// import LeftNavCard from '../_components/LeftNavCard';
 
 type SingleRecipeViewProps = {
   params: {
@@ -20,14 +22,17 @@ export default async function SingleRecipeView({
       <LeftNav>
         <h2 className='text-4xl'>Ingredients</h2>
         {recipe?.ingredientGroups.map((group) => (
-          <article className='w-full h-fit flex flex-col gap-0 mb-4'>
+          <article
+            key={group.id}
+            className='w-full h-fit flex flex-col gap-0 mb-4'
+          >
             {group.groupTitle !== '' && (
               <h3 className='text-3xl self-start font-bold text-gray-800 px-4'>
                 {group.groupTitle}
               </h3>
             )}
             {group.ingredients.map((item) => (
-              <LeftNavCard>{item.description}</LeftNavCard>
+              <LeftNavCard key={item.id}>{item.description}</LeftNavCard>
             ))}
           </article>
         ))}
@@ -61,5 +66,5 @@ export default async function SingleRecipeView({
 export async function generateStaticParams() {
   const recipes = await getAllRecipes();
 
-  return recipes.map((recipe) => recipe.id);
+  return recipes.map((recipe) => ({ recipeId: recipe.id }));
 }

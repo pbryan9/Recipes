@@ -16,8 +16,6 @@ import StandardMainContainer from '@/app/components/StandardMainContainer';
 import { createNewRecipe } from '@/lib/db/recipes/createNewRecipe';
 import CreateSideMenu from './_components/Create_SideMenu';
 import GroupsListing from './_components/GroupsListing';
-import ButtonContainer from './_components/ButtonContainer';
-import Button from './_components/Button';
 import { Tag } from '.prisma/client';
 import SelectedTags from './_components/SelectedTags';
 
@@ -84,11 +82,19 @@ export default function CreateNewRecipeView() {
       data.tags = Array.from(selectedTags.values()) as typeof data.tags;
     }
 
-    createNewRecipe(data).then((res) => {
-      reset(defaultValues);
-      setButtonDisabled(false);
-      router.push(`/recipes/${res?.id}`);
+    const res = await fetch('/api/restricted/create-new-recipe', {
+      method: 'POST',
+      body: JSON.stringify(data),
     });
+
+    console.log('fetch res:', res);
+
+    // ! server actions aren't revalidating correctly
+    // createNewRecipe(data).then((res) => {
+    //   reset(defaultValues);
+    //   setButtonDisabled(false);
+    //   router.push(`/recipes/${res?.id}`);
+    // });
   }
 
   console.log(selectedTags?.size);

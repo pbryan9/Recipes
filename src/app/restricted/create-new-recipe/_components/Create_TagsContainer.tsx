@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import LeftNavCard from '@/app/components/LeftNavCard';
 import LeftNavCardContainer from '@/app/components/LeftNavCardContainer';
 
-import { Tag, type $Enums } from '@prisma/client';
+import { Tag } from '@prisma/client';
 
 type CreateTagsContainerProps = {
   toggleTag: (tag: Tag) => void;

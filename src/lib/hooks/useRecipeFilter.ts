@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { Ingredient, Recipe } from '../../../types';
 
@@ -38,7 +37,10 @@ export default function useRecipeFilter() {
   }
 
   async function fetchAllRecipes() {
-    const res = await fetch('/api/recipes');
+    const res = await fetch('/api/recipes', {
+      next: { tags: ['all-recipes'] },
+      cache: 'no-store',
+    });
     setIsLoading(false);
     if (!res.ok) throw new Error('error fetching recipes');
 
@@ -91,8 +93,8 @@ export default function useRecipeFilter() {
       if (
         recipe.tags?.some(
           (tag) =>
-            tag.description.toLowerCase() === searchTerm ||
-            tag.tagGroup?.toLowerCase() === searchTerm
+            tag.description.toLowerCase().includes(searchTerm) ||
+            tag.tagGroup?.toLowerCase().includes(searchTerm)
         )
       ) {
         results.tagMatches.push(recipe);
